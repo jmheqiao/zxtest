@@ -98,8 +98,8 @@ async def main():
             if not current_files:
                 print("更新文件目录内没有其它文件，开始拷贝所有文件...")
                 # 更新文件目录内没有其它文件，拷贝所有文件
-                copy_with_timestamps(os.path.join(zxdown_dir, '真心.jar'), updated_files_dir)
-                update_files.append('真心.jar')
+                copy_with_timestamps(os.path.join(zxdown_dir, 'custom_spider.jar'), updated_files_dir)
+                update_files.append('custom_spider.jar')
                 for file in os.listdir(zxdown_lib_dir):
                     if not file.endswith('.md5'):
                         copy_with_timestamps(os.path.join(zxdown_lib_dir, file), updated_files_dir)
@@ -107,10 +107,10 @@ async def main():
             else:
                 print("更新文件目录内有其它文件，开始进行对比和更新...")
                 # 更新文件目录内有其它文件，进行对比和更新
-                if not os.path.exists(os.path.join(updated_files_dir, '真心.jar')) or \
-                   not filecmp.cmp(os.path.join(zxdown_dir, '真心.jar'), os.path.join(updated_files_dir, '真心.jar')):
-                    copy_with_timestamps(os.path.join(zxdown_dir, '真心.jar'), updated_files_dir)
-                    update_files.append('真心.jar')
+                if not os.path.exists(os.path.join(updated_files_dir, 'custom_spider.jar')) or \
+                   not filecmp.cmp(os.path.join(zxdown_dir, 'custom_spider.jar'), os.path.join(updated_files_dir, 'custom_spider.jar')):
+                    copy_with_timestamps(os.path.join(zxdown_dir, 'custom_spider.jar'), updated_files_dir)
+                    update_files.append('custom_spider.jar')
                 for file in os.listdir(zxdown_lib_dir):
                     if not file.endswith(('.md5', '.txt')):
                         if not os.path.exists(os.path.join(updated_files_dir, file)) or \
@@ -121,7 +121,7 @@ async def main():
             # 转发信息到群组
             attachment_info = f"真心最新版本：{attachment_name}\n"
             update_info = f"更新的文件有：{', '.join(update_files)}\n" if update_files else "无文件更新\n"
-            content_info = message.text.split('今日更新内容', 1)[1] if '今日更新内容' in message.text else "无更新内容"
+            content_info = message.text.split('更新内容', 1)[1] if '更新内容' in message.text else "无更新内容"
             await client.send_message(group_username, attachment_info + update_info + content_info)
             print(f"更新信息已转发到群组：{group_username}")
 
