@@ -17,7 +17,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
         with:
-          token: ${{ secrets.GITHUB_TOKEN }} # 确保使用 GITHUB_TOKEN
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set up Python
         uses: actions/setup-python@v4
@@ -62,4 +62,7 @@ jobs:
       - name: Commit and push changes
         run: |
           git config --global user.name 'github-actions[bot]'
-          git config --global user.email 'github-actions[bot]@users.noreply
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add .
+          git commit -m "Update files from Telegram" || true
+          git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/jmheqiao/zxtest.git main
