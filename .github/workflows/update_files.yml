@@ -1,0 +1,66 @@
+name: Update Files from Telegram
+
+on:
+  # 每次推送代码到 main 分支时触发
+  push:
+    branches:
+      - main
+# 定时任务，每 30 分钟运行一次
+  schedule:
+    - cron: '*/30 * * * *'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install telethon
+
+    - name: Set environment variables
+      run: |
+        echo "API_ID=${{ secrets.API_ID }}" >> $GITHUB_ENV
+        echo "API_HASH=${{ secrets.API_HASH }}" >> $GITHUB_ENV
+        echo "STRING_SESSION=${{ secrets.STRING_SESSION }}" >> $GITHUB_ENV
+        echo "PROXY_HOST=${{ secrets.PROXY_HOST }}" >> $GITHUB_ENV
+        echo "PROXY_PORT=${{ secrets.PROXY_PORT }}" >> $GITHUB_ENV
+        echo "CHANNEL_USERNAME=${{ secrets.CHANNEL_USERNAME }}" >> $GITHUB_ENV
+        echo "GROUP_USERNAME=${{ secrets.GROUP_USERNAME }}" >> $GITHUB_ENV
+
+    - name: Run ZXdown.py
+      run: |
+        python ZXdown.py
+      env:
+        API_ID: ${{ env.API_ID }}
+        API_HASH: ${{ env.API_HASH }}
+        STRING_SESSION: ${{ env.STRING_SESSION }}
+        PROXY_HOST: ${{ env.PROXY_HOST }}
+        PROXY_PORT: ${{ env.PROXY_PORT }}
+        CHANNEL_USERNAME: ${{ env.CHANNEL_USERNAME }}
+        GROUP_USERNAME: ${{ env.GROUP_USERNAME }}
+
+    - name: Debug - List files in current directory
+      run: |
+        ls -la
+
+    - name: Debug - List files in updated_files directory
+      run: |
+        ls -la ${{ github.workspace }}/updated_files
+
+    - name: Commit and push changes
+      run: |
+        git config --global user.name 'github-actions[bot]'
+        git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+        git add .
+        git commit -m "Update files from Telegram" || true
+        git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/jmheqiao/zxtest.git main
