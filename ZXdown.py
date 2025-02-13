@@ -21,12 +21,12 @@ group_username = os.getenv('GROUP_USERNAME')
 current_dir = os.path.dirname(os.path.abspath(__file__))
 zxdown_dir = os.path.join(current_dir, 'zxdown')
 zxdown_lib_dir = os.path.join(zxdown_dir, 'lib')
-updated_files_dir = os.path.join(current_dir, 'updated_files')  # 新增更新文件目录
+zx_updated_files_dir = os.path.join(current_dir, 'zx_updated_files')  # 修改后的更新文件目录名称
 
 print(f"当前目录：{current_dir}")
 print(f"zxdown目录：{zxdown_dir}")
 print(f"zxdown_lib目录：{zxdown_lib_dir}")
-print(f"更新文件目录：{updated_files_dir}")
+print(f"更新文件目录：{zx_updated_files_dir}")
 
 # 创建Telegram客户端
 client = TelegramClient(StringSession(string_session), api_id, api_hash)
@@ -51,11 +51,11 @@ async def main():
     print("开始获取频道最新消息...")
 
     # 创建更新文件目录
-    if not os.path.exists(updated_files_dir):
-        os.makedirs(updated_files_dir)
-        print(f"更新文件目录已创建：{updated_files_dir}")
+    if not os.path.exists(zx_updated_files_dir):
+        os.makedirs(zx_updated_files_dir)
+        print(f"更新文件目录已创建：{zx_updated_files_dir}")
     else:
-        print(f"更新文件目录已存在：{updated_files_dir}")
+        print(f"更新文件目录已存在：{zx_updated_files_dir}")
 
     # 获取频道最新消息
     async for message in client.iter_messages(channel_username, limit=1):
@@ -93,29 +93,29 @@ async def main():
             
             # 处理文件拷贝和更新逻辑
             update_files = []
-            current_files = [f for f in os.listdir(updated_files_dir) if f not in [os.path.basename(__file__), attachment_name]]
+            current_files = [f for f in os.listdir(zx_updated_files_dir) if f not in [os.path.basename(__file__), attachment_name]]
             
             if not current_files:
                 print("更新文件目录内没有其它文件，开始拷贝所有文件...")
                 # 更新文件目录内没有其它文件，拷贝所有文件
-                copy_with_timestamps(os.path.join(zxdown_dir, 'custom_spider.jar'), updated_files_dir)
+                copy_with_timestamps(os.path.join(zxdown_dir, 'custom_spider.jar'), zx_updated_files_dir)
                 update_files.append('custom_spider.jar')
                 for file in os.listdir(zxdown_lib_dir):
                     if not file.endswith('.md5'):
-                        copy_with_timestamps(os.path.join(zxdown_lib_dir, file), updated_files_dir)
+                        copy_with_timestamps(os.path.join(zxdown_lib_dir, file), zx_updated_files_dir)
                         update_files.append(file)
             else:
                 print("更新文件目录内有其它文件，开始进行对比和更新...")
                 # 更新文件目录内有其它文件，进行对比和更新
-                if not os.path.exists(os.path.join(updated_files_dir, 'custom_spider.jar')) or \
-                   not filecmp.cmp(os.path.join(zxdown_dir, 'custom_spider.jar'), os.path.join(updated_files_dir, 'custom_spider.jar')):
-                    copy_with_timestamps(os.path.join(zxdown_dir, 'custom_spider.jar'), updated_files_dir)
+                if not os.path.exists(os.path.join(zx_updated_files_dir, 'custom_spider.jar')) or \
+                   not filecmp.cmp(os.path.join(zxdown_dir, 'custom_spider.jar'), os.path.join(zx_updated_files_dir, 'custom_spider.jar')):
+                    copy_with_timestamps(os.path.join(zxdown_dir, 'custom_spider.jar'), zx_updated_files_dir)
                     update_files.append('custom_spider.jar')
                 for file in os.listdir(zxdown_lib_dir):
                     if not file.endswith(('.md5', '.txt')):
-                        if not os.path.exists(os.path.join(updated_files_dir, file)) or \
-                           not filecmp.cmp(os.path.join(zxdown_lib_dir, file), os.path.join(updated_files_dir, file)):
-                            copy_with_timestamps(os.path.join(zxdown_lib_dir, file), updated_files_dir)
+                        if not os.path.exists(os.path.join(zx_updated_files_dir, file)) or \
+                           not filecmp.cmp(os.path.join(zxdown_lib_dir, file), os.path.join(zx_updated_files_dir, file)):
+                            copy_with_timestamps(os.path.join(zxdown_lib_dir, file), zx_updated_files_dir)
                             update_files.append(file)
            
             # 转发信息到群组
