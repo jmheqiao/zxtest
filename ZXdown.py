@@ -32,14 +32,36 @@ print(f"更新文件目录：{zx_updated_files_dir}")
 client = TelegramClient(StringSession(string_session), api_id, api_hash)
 
 def extract_zip_with_timestamps(zip_path, extract_to):
+    """解压ZIP文件并保留时间戳，同时处理中文文件名乱码问题"""
     with zipfile.ZipFile(zip_path, 'r') as zip_ref:
         for zip_info in zip_ref.infolist():
+            # 处理文件名编码问题
+            try:
+                # 尝试使用 cp437 编码解码文件名
+                file_name = zip_info.filename.encode('cp437').decode('gbk')
+            except UnicodeDecodeError:
+                # 如果 cp437 解码失败，尝试使用 utf-8 编码
+                try:
+                    file_name = zip_info.filename.encode('utf-8').decode('utf-8')
+                except UnicodeDecodeError:
+                    # 如果仍然失败，保留原始文件名
+                    file_name = zip_info.filename
+                    logger.warning(f"无法解码文件名：{file_name}，将使用原始文件名")
+
             # 解压文件
+            extracted_path = os.path.join(extract_to, file_name)
             zip_ref.extract(zip_info, extract_to)
+            
+            # 如果解压后的文件名与预期不一致，重命名文件
+            if not os.path.exists(extracted_path):
+                original_extracted_path = os.path.join(extract_to, zip_info.filename)
+                if os.path.exists(original_extracted_path):
+                    os.rename(original_extracted_path, extracted_path)
+                    logger.info(f"重命名文件：{zip_info.filename} -> {file_name}")
+
             # 设置文件的修改时间和访问时间
-            file_path = os.path.join(extract_to, zip_info.filename)
             mod_time = time.mktime(zip_info.date_time + (0, 0, -1))
-            os.utime(file_path, (mod_time, mod_time))
+            os.utime(extracted_path, (mod_time, mod_time))
 
 def copy_with_timestamps(src, dst):
     # 拷贝文件并保留时间戳
