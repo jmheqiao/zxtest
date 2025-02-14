@@ -7,7 +7,7 @@ on:
       - main
   # 定时任务，每天0时0分运行一次
   schedule:
-    - cron: '0 * * * *'
+    - cron: '0 0 * * *'
 
 jobs:
   build:
