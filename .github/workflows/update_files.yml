@@ -55,9 +55,9 @@ jobs:
         run: |
           ls -la
 
-      - name: Debug - List files in updated_files directory
+      - name: Debug - List files in zx_updated_files directory
         run: |
-          ls -la ${{ github.workspace }}/updated_files
+          ls -la ${{ github.workspace }}/zx_updated_files
 
       - name: Commit and push changes
         run: |
