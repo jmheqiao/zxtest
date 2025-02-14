@@ -3,9 +3,14 @@ import zipfile
 import shutil
 import filecmp
 import time
+import logging
 from telethon import TelegramClient, events
 from telethon.tl.types import MessageMediaDocument
 from telethon.sessions import StringSession
+
+# 配置日志
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 # 从环境变量中读取配置信息
 api_id = os.getenv('API_ID')
