@@ -1,0 +1,140 @@
+{
+  "lives": [
+    {
+      "name": "Mytvsuper",
+      "type": 0,
+      "url": "https://heqiao.serv00.net/mytvfree.m3u",
+      "ua": "okhttp/3.15",
+      "epg": "http://127.0.0.1:10079/p/0/proxy/http://epg.112114.xyz/?ch={name}&date={date}",
+      "logo": "https://epg.112114.xyz/logo/{name}.png"
+    },
+    {
+      "name": "hkl_Mytv免翻",
+      "type": 0,
+      "url": "http://hkl.jmxh.us.kg/mytv.m3u",
+      "ua": "okhttp/3.15",
+      "epg": "http://127.0.0.1:10079/p/0/proxy/http://epg.112114.xyz/?ch={name}&date={date}",
+      "logo": "https://epg.112114.xyz/logo/{name}.png"
+    },
+    {
+      "name": "hkl_CF免翻",
+      "type": 0,
+      "url": "http://tv.jmxh.us.kg/",
+      "ua": "judy/5.2.1",
+      "epg": "http://127.0.0.1:10079/p/0/proxy/http://epg.112114.xyz/?ch={name}&date={date}",
+      "logo": "https://epg.112114.xyz/logo/{name}.png"
+    },
+    {
+      "name": "hkl_Mytv混合",
+      "type": 0,
+      "url": "http://hkl.jmxh.us.kg:8899/mytv",
+      "ua": "okhttp/3.15",
+      "epg": "http://127.0.0.1:10079/p/0/proxy/http://epg.112114.xyz/?ch={name}&date={date}",
+      "logo": "https://epg.112114.xyz/logo/{name}.png"
+    },
+    {
+      "name": "IPTV研究所",
+      "type": 0,
+      "url": "https://video.mytvsuper.xyz/playlist/zong-he-ding-yue.m3u?token=407713096909814",
+      "ua": "judy/5.2.1",
+      "epg": "http://127.0.0.1:10079/p/0/proxy/http://epg.112114.xyz/?ch={name}&date={date}",
+      "logo": "https://epg.112114.xyz/logo/{name}.png"
+    },
+    {
+      "name": "Stream(1)",
+      "type": 0,
+      "url": "https://www.stream-link.org/playlist.m3u?token=2cf41594-7f9c-4171-a64a-9e318cbd60a3&hmac=db72da0389755246dd854268409332d9",
+      "ua": "juky/5.2.1)",
+      "epg": "http://127.0.0.1:10079/p/0/proxy/http://epg.112114.xyz/?ch={name}&date={date}",
+      "logo": "https://epg.112114.xyz/logo/{name}.png"
+    },
+    {
+      "name": "Stream(2)",
+      "type": 0,
+      "url": "https://www.stream-link.org/playlist.m3u?token=d9811640-b371-4dcd-936a-95cb7608b2e5&hmac=34cfd0e78418657353d74a103de18d0c",
+      "ua": "juky/5.2.1",
+      "epg": "http://127.0.0.1:10079/p/0/proxy/http://epg.112114.xyz/?ch={name}&date={date}",
+      "logo": "https://epg.112114.xyz/logo/{name}.png"
+    },
+    {
+      "name": "HKDVB(1)",
+      "type": 0,
+      "url": "https://live.hkdvb.com/hls/playlist.m3u?token=407713096882491",
+      "ua": "okhttp/3.15",
+      "epg": "http://127.0.0.1:10079/p/0/proxy/http://epg.112114.xyz/?ch={name}&date={date}",
+      "logo": "https://epg.112114.xyz/logo/{name}.png"
+    },
+    {
+      "name": "HKDVB(2)",
+      "type": 0,
+      "url": "https://live.hkdvb.com/hls/playlist.m3u?token=623374676517296",
+      "ua": "okhttp/3.15",
+      "epg": "http://127.0.0.1:10079/p/0/proxy/http://epg.112114.xyz/?ch={name}&date={date}",
+      "logo": "https://epg.112114.xyz/logo/{name}.png"
+    },
+    {
+      "name": "AKTV",
+      "type": 0,
+      "url": "http://aktv.top/live.m3u",
+      "ua": "okhttp/3.15",
+      "epg": "http://127.0.0.1:10079/p/0/proxy/http://epg.112114.xyz/?ch={name}&date={date}",
+      "logo": "https://epg.112114.xyz/logo/{name}.png"
+    },
+    {
+      "name": "Mytvsuper狐蒂云",
+      "type": 0,
+      "url": "http://jmxh.now.cc:5000/mytvsuper-tivimate.m3u",
+      "ua": "okhttp/3.15",
+      "epg": "http://127.0.0.1:10079/p/0/proxy/http://epg.112114.xyz/?ch={name}&date={date}",
+      "logo": "https://epg.112114.xyz/logo/{name}.png"
+    },
+    {
+      "name": "广东IPTV",
+      "type": 0,
+      "url": "https://cf.601417.eu.org/jmheqiao/freetv/main/gdiptv.m3u?token=heqiao",
+      "ua": "okhttp/3.15",
+      "epg": "http://127.0.0.1:10079/p/0/proxy/http://epg.112114.xyz/?ch={name}&date={date}",
+      "logo": "https://epg.112114.xyz/logo/{name}.png"
+    },
+    {
+      "name": "zhoujie218",
+      "type": 0,
+      "url": "https://live.zhoujie218.top/tv/iptv4.m3u",
+      "ua": "okhttp/3.15",
+      "epg": "http://127.0.0.1:10079/p/0/proxy/http://epg.112114.xyz/?ch={name}&date={date}",
+      "logo": "https://epg.112114.xyz/logo/{name}.png"
+    },
+    {
+      "name": "JUNDIE",
+      "type": 0,
+      "url": "http://home.jundie.top:81/ray/tvlive.txt",
+      "ua": "okhttp/3.15",
+      "epg": "http://127.0.0.1:10079/p/0/proxy/http://epg.112114.xyz/?ch={name}&date={date}",
+      "logo": "https://epg.112114.xyz/logo/{name}.png"
+    },
+    {
+      "name": "FreeTV",
+      "type": 0,
+      "url": "https://www.freetv.top/migu.m3u",
+      "ua": "okhttp/3.15",
+      "epg": "http://127.0.0.1:10079/p/0/proxy/http://epg.112114.xyz/?ch={name}&date={date}",
+      "logo": "https://epg.112114.xyz/logo/{name}.png"
+    },
+    {
+      "name": "Catvod",
+      "type": 0,
+      "url": "https://live.catvod.com/tv.m3ut",
+      "ua": "okhttp/3.15",
+      "epg": "http://127.0.0.1:10079/p/0/proxy/http://epg.112114.xyz/?ch={name}&date={date}",
+      "logo": "https://epg.112114.xyz/logo/{name}.png"
+    },
+    {
+      "name": "Guovin",
+      "type": 0,
+      "url": "https://cdn.jsdelivr.net/gh/Guovin/iptv-api@gd/output/result.m3u",
+      "ua": "okhttp/3.15",
+      "epg": "http://127.0.0.1:10079/p/0/proxy/http://epg.112114.xyz/?ch={name}&date={date}",
+      "logo": "https://epg.112114.xyz/logo/{name}.png"
+    }
+  ]
+}

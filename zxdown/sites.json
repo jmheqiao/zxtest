@@ -1,6 +1,6 @@
 {  "sites": [
     {
-        "key": "豆瓣",
+        "key": "豆瓣💓",
         "name": "豆瓣💓版本号💓",
         "type": 3,
         "api": "csp_TgYunDouBanPan",
@@ -15,17 +15,18 @@
         }
     },
     {
-        "key": "TgYunPan|服务器",
-        "name": "🍇Tg服务器",
+        "key": "豆瓣",
+        "name": "TG搜💓版本号💓",
         "type": 3,
         "api": "csp_TgYunDouBanPan",
         "searchable": 1,
-        "filterable": 0,
-        "switchable": 0,
+        "changeable": 0,
         "ext": {
-            "siteUrl": "https://zx-tgs.601417.us.kg",
-            "channelUsername": "wandang1,hao115,guaguale115,dianyingshare,XiangxiuNB,yunpanpan,kuakeyun,zaihuayun,Quark_Movies,alyp_4K_Movies,vip115hot,yunpanshare,ucwangpan,Quark_Share_Channel,Aliyundrive_Share_Channel,shareAliyun,ikiviyyp,wanwansubchat,wangpanziyuan2021,alyp_1,quanziyuanshe",
-            "commonConfig": "./json/peizhi.json"
+            "siteUrl": "http://tgsou.fish2018.us.kg",
+            "count": 4,
+            "channelUsername": "tgsearchers,guaguale115,ydypzyfx,shareAliyun,ucpanpan,ucquark,alyp_1,hao115,Aliyun_4K_Movies",
+            "commonConfig": "./json/peizhi.json",
+            "filter": "./json/douban.json"
         }
     },
     {
