@@ -24,9 +24,9 @@ http://127.0.0.1:35457/yylunbo.m3u
 https://heqiao.serv00.net/mytvfree.m3u
 #Hkdvb(月更)
 https://live.hkdvb.com/hls/playlist.m3u?token=407713096889401
-#Stream-link(F)
-https://www.stream-link.org/stream-link.m3u
-#Stream-link(自)
+#Stream-link(1)
+https://www.stream-link.org/playlist.m3u?token=2cf41594-7f9c-4171-a64a-9e318cbd60a3&hmac=db72da0389755246dd854268409332d9
+#Stream-link(2)
 https://www.stream-link.org/playlist.m3u?token=d9811640-b371-4dcd-936a-95cb7608b2e5&hmac=34cfd0e78418657353d74a103de18d0c
 #AKTV
 http://aktv.top/live.m3u
