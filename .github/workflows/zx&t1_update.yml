@@ -1,0 +1,81 @@
+name: Update Files from Telegram and Run t1.py
+
+on:
+  # 每次推送代码到 main 分支时触发
+  push:
+    branches:
+      - main
+  # 定时任务，每天0时0分运行一次
+  schedule:
+    - cron: '0 0 * * *'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. 检出代码
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      # 2. 设置 Python 环境
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      # 3. 安装依赖
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install telethon
+
+      # 4. 设置环境变量
+      - name: Set environment variables
+        run: |
+          echo "API_ID=${{ secrets.API_ID }}" >> $GITHUB_ENV
+          echo "API_HASH=${{ secrets.API_HASH }}" >> $GITHUB_ENV
+          echo "STRING_SESSION=${{ secrets.STRING_SESSION }}" >> $GITHUB_ENV
+          echo "PROXY_HOST=${{ secrets.PROXY_HOST }}" >> $GITHUB_ENV
+          echo "PROXY_PORT=${{ secrets.PROXY_PORT }}" >> $GITHUB_ENV
+          echo "CHANNEL_USERNAME=${{ secrets.CHANNEL_USERNAME }}" >> $GITHUB_ENV
+          echo "GROUP_USERNAME=${{ secrets.GROUP_USERNAME }}" >> $GITHUB_ENV
+
+      # 5. 运行 ZXdown.py
+      - name: Run ZXdown.py
+        run: |
+          python ZXdown.py
+        env:
+          API_ID: ${{ env.API_ID }}
+          API_HASH: ${{ env.API_HASH }}
+          STRING_SESSION: ${{ env.STRING_SESSION }}
+          PROXY_HOST: ${{ env.PROXY_HOST }}
+          PROXY_PORT: ${{ env.PROXY_PORT }}
+          CHANNEL_USERNAME: ${{ env.CHANNEL_USERNAME }}
+          GROUP_USERNAME: ${{ env.GROUP_USERNAME }}
+
+      # 6. 调试 - 列出当前目录的文件
+      - name: Debug - List files in current directory
+        run: |
+          ls -la
+
+      # 7. 调试 - 列出 zx_updated_files 目录的文件
+      - name: Debug - List files in zx_updated_files directory
+        run: |
+          ls -la ${{ github.workspace }}/zx_updated_files
+
+      # 8. 运行 t1.py
+      - name: Run t1.py
+        run: |
+          python t1.py
+
+      # 9. 提交并推送更改
+      - name: Commit and push changes
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add .
+          git commit -m "Update files from Telegram and run t1.py" || true
+          git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/jmheqiao/zxtest.git main
