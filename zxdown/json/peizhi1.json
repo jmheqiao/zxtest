@@ -1,12 +1,12 @@
 {
-  "aliToken": "",
-  "quarkCookie": "",
-  "ucCookie": "",
-  "115Cookie": "",
-  "pwdRb115": "",
-  "goServerUrl": "http://127.0.0.1:9966",
-  "ydAuth": "Basic cGM6MTM4MDI2MDE0MTc6SGw4Sk1iS2h8MXxSQ1N8MTczNTEwMjkyOTkyNXxja1hrSDRnMnZ2bW5pZFBDMDVSNE1STzNWSjFCQlEwLmNZWURIMEg0VU9nU1ZDRW5GSXByMHlsNVFaeWI1clVpaG5zc2RnTnhleVpzbFpHNUR4bWxUQTI5bUlqOUtPNWVvbUNIZ2xyT3k5Nm55akxkdFZ2bE9jZmZoRE9SY0VlcEcxenpDQndsZDF6eThMVWguOERpZGdMS3NLTWpDMUlfU0JWb1VaSVNoU0Ut",
-  "tyAuth": "13802601417|jm601417",
-  "proxy": "http://127.0.0.1:1072",
-  "tgPic": "false"
+    "aliToken": "",
+    "quarkCookie": "",
+    "ucCookie": "",
+    "115Cookie": "",
+    "pwdRb115": "",
+    "goServerUrl": "http://127.0.0.1:9966",
+    "ydAuth": "Basic cGM6MTM4MDI2MDE0MTc6SGw4Sk1iS2h8MXxSQ1N8MTczNTEwMjkyOTkyNXxja1hrSDRnMnZ2bW5pZFBDMDVSNE1STzNWSjFCQlEwLmNZWURIMEg0VU9nU1ZDRW5GSXByMHlsNVFaeWI1clVpaG5zc2RnTnhleVpzbFpHNUR4bWxUQTI5bUlqOUtPNWVvbUNIZ2xyT3k5Nm55akxkdFZ2bE9jZmZoRE9SY0VlcEcxenpDQndsZDF6eThMVWguOERpZGdMS3NLTWpDMUlfU0JWb1VaSVNoU0Ut",
+    "tyAuth": "13802601417|jm601417",
+    "proxy": "http://127.0.0.1:1072",
+    "tgPic": "false"
 }
