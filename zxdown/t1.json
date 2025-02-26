@@ -527,7 +527,7 @@
         {
             "name": "hkl_Mytv免翻",
             "type": 0,
-            "url": "http://hkl.jmxh.us.kg/mytv.m3u",
+            "url": "http://hkl.601417.eu.org/mytv.m3u",
             "ua": "okhttp/3.15",
             "epg": "http://127.0.0.1:10079/p/0/proxy/http://epg.112114.xyz/?ch={name}&date={date}",
             "logo": "https://epg.112114.xyz/logo/{name}.png"
@@ -535,7 +535,7 @@
         {
             "name": "hkl_CF免翻",
             "type": 0,
-            "url": "http://tv.jmxh.us.kg/",
+            "url": "http://tv.601417.eu.org/",
             "ua": "judy/5.2.1",
             "epg": "http://127.0.0.1:10079/p/0/proxy/http://epg.112114.xyz/?ch={name}&date={date}",
             "logo": "https://epg.112114.xyz/logo/{name}.png"
@@ -543,7 +543,7 @@
         {
             "name": "hkl_Mytv混合",
             "type": 0,
-            "url": "http://hkl.jmxh.us.kg:8899/mytv",
+            "url": "http://hkl.601417.eu.org:8899/mytv",
             "ua": "okhttp/3.15",
             "epg": "http://127.0.0.1:10079/p/0/proxy/http://epg.112114.xyz/?ch={name}&date={date}",
             "logo": "https://epg.112114.xyz/logo/{name}.png"
@@ -597,6 +597,14 @@
             "logo": "https://epg.112114.xyz/logo/{name}.png"
         },
         {
+            "name": "Mytvsuper-hkl",
+            "type": 0,
+            "url": "http://hkl.601417.eu.org:5000/mytvsuper.m3u",
+            "ua": "okhttp/3.15",
+            "epg": "http://127.0.0.1:10079/p/0/proxy/http://epg.112114.xyz/?ch={name}&date={date}",
+            "logo": "https://epg.112114.xyz/logo/{name}.png"
+        },
+        {
             "name": "Mytvsuper狐蒂云",
             "type": 0,
             "url": "http://jmxh.now.cc:5000/mytvsuper-tivimate.m3u",
@@ -608,6 +616,46 @@
             "name": "广东IPTV",
             "type": 0,
             "url": "https://cf.601417.eu.org/jmheqiao/freetv/main/gdiptv.m3u?token=heqiao",
+            "ua": "okhttp/3.15",
+            "epg": "http://127.0.0.1:10079/p/0/proxy/http://epg.112114.xyz/?ch={name}&date={date}",
+            "logo": "https://epg.112114.xyz/logo/{name}.png"
+        },
+        {
+            "name": "肥羊",
+            "type": 0,
+            "url": "http://zb.xkwangluo.cn:35455/tv.m3u",
+            "ua": "okhttp/3.15",
+            "epg": "http://127.0.0.1:10079/p/0/proxy/http://epg.112114.xyz/?ch={name}&date={date}",
+            "logo": "https://epg.112114.xyz/logo/{name}.png"
+        },
+        {
+            "name": "宝全源",
+            "type": 0,
+            "url": "https://d.kstore.dev/download/4878/kx2024.txt",
+            "ua": "okhttp/3.15",
+            "epg": "http://127.0.0.1:10079/p/0/proxy/http://epg.112114.xyz/?ch={name}&date={date}",
+            "logo": "https://epg.112114.xyz/logo/{name}.png"
+        },
+        {
+            "name": "全国",
+            "type": 0,
+            "url": "http://8.138.7.223/live.txt",
+            "ua": "okhttp/3.15",
+            "epg": "http://127.0.0.1:10079/p/0/proxy/http://epg.112114.xyz/?ch={name}&date={date}",
+            "logo": "https://epg.112114.xyz/logo/{name}.png"
+        },
+        {
+            "name": "TVZB",
+            "type": 0,
+            "url": "https://7337.kstore.space/twkj/tvzb.txt",
+            "ua": "okhttp/3.15",
+            "epg": "http://127.0.0.1:10079/p/0/proxy/http://epg.112114.xyz/?ch={name}&date={date}",
+            "logo": "https://epg.112114.xyz/logo/{name}.png"
+        },
+        {
+            "name": "th2020",
+            "type": 0,
+            "url": "http://th2020.f3322.net:35455/",
             "ua": "okhttp/3.15",
             "epg": "http://127.0.0.1:10079/p/0/proxy/http://epg.112114.xyz/?ch={name}&date={date}",
             "logo": "https://epg.112114.xyz/logo/{name}.png"
