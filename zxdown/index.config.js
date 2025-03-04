@@ -40,7 +40,8 @@ var index_config_default = {
     cookie: ""
   },
   uc: {
-    cookie: ""
+    cookie: "",
+    token: ""
   },
   y115: {
     cookie: ""
