@@ -126,8 +126,8 @@ async def main():
                 return
 
             zip_name = attachment.name
-            # 检查文件名是否包含“真心”
-            if "真心" not in zip_name:
+            # 检查文件名是否包含真心
+            if 真心 not in zip_name:
                 logger.info(f"文件名不包含'真心'，跳过下载：{zip_name}")
                 return
 
