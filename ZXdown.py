@@ -41,7 +41,7 @@ logger.info(f"更新文件目录：{zx_updated_files_dir}")
 client = TelegramClient(
     StringSession(string_session),
     api_id, api_hash,
-    proxy=proxy
+    proxy=None
 )
 
 def extract_zip_with_timestamps(zip_path, extract_to):
