@@ -4,12 +4,16 @@ import shutil
 import filecmp
 import time
 import logging
+from datetime import datetime
 from telethon import TelegramClient, events
 from telethon.tl.types import MessageMediaDocument
 from telethon.sessions import StringSession
 
 # 配置日志
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+)
 logger = logging.getLogger(__name__)
 
 # 从环境变量中读取配置信息
@@ -18,7 +22,7 @@ api_hash = os.getenv('API_HASH')
 string_session = os.getenv('STRING_SESSION')
 PROXY_HOST = os.getenv('PROXY_HOST', '127.0.0.1')
 PROXY_PORT = int(os.getenv('PROXY_PORT', 7890))
-proxy = ('socks5', PROXY_HOST, PROXY_PORT)
+proxy = ('socks5', PROXY_HOST, PROXY_PORT) if PROXY_HOST and PROXY_PORT else None
 channel_username = os.getenv('CHANNEL_USERNAME')
 group_username = os.getenv('GROUP_USERNAME')
 
@@ -26,132 +30,155 @@ group_username = os.getenv('GROUP_USERNAME')
 current_dir = os.path.dirname(os.path.abspath(__file__))
 zxdown_dir = os.path.join(current_dir, 'zxdown')
 zxdown_lib_dir = os.path.join(zxdown_dir, 'lib')
-zx_updated_files_dir = os.path.join(current_dir, 'zx_updated_files')  # 修改后的更新文件目录名称
+zx_updated_files_dir = os.path.join(current_dir, 'zx_updated_files')
 
-print(f"当前目录：{current_dir}")
-print(f"zxdown目录：{zxdown_dir}")
-print(f"zxdown_lib目录：{zxdown_lib_dir}")
-print(f"更新文件目录：{zx_updated_files_dir}")
+logger.info(f"当前目录：{current_dir}")
+logger.info(f"zxdown目录：{zxdown_dir}")
+logger.info(f"zxdown_lib目录：{zxdown_lib_dir}")
+logger.info(f"更新文件目录：{zx_updated_files_dir}")
 
 # 创建Telegram客户端
-client = TelegramClient(StringSession(string_session), api_id, api_hash)
+client = TelegramClient(
+    StringSession(string_session),
+    api_id, api_hash,
+    proxy=proxy
+)
 
 def extract_zip_with_timestamps(zip_path, extract_to):
-    """解压ZIP文件并保留时间戳，同时处理中文文件名乱码问题"""
+    """解压ZIP文件并保留时间戳，处理中文文件名乱码"""
     with zipfile.ZipFile(zip_path, 'r') as zip_ref:
         for zip_info in zip_ref.infolist():
             # 处理文件名编码问题
+            original_filename = zip_info.filename
             try:
-                # 尝试使用 cp437 编码解码文件名
-                file_name = zip_info.filename.encode('cp437').decode('gbk')
+                # 尝试UTF-8解码
+                file_name = original_filename.encode('utf-8').decode('utf-8')
             except UnicodeDecodeError:
-                # 如果 cp437 解码失败，尝试使用 utf-8 编码
                 try:
-                    file_name = zip_info.filename.encode('utf-8').decode('utf-8')
-                except UnicodeDecodeError:
-                    # 如果仍然失败，保留原始文件名
-                    file_name = zip_info.filename
-                    logger.warning(f"无法解码文件名：{file_name}，将使用原始文件名")
+                    # 尝试CP437解码后转为GBK
+                    file_name = original_filename.encode('cp437').decode('gbk')
+                except Exception as e:
+                    logger.warning(f"文件名解码失败，使用原始名称: {original_filename}, 错误: {e}")
+                    file_name = original_filename
 
-            # 解压文件
-            extracted_path = os.path.join(extract_to, file_name)
+            # 构建完整解压路径
+            target_path = os.path.join(extract_to, file_name)
+            if os.path.sep in file_name:
+                # 创建必要的目录
+                parent_dir = os.path.dirname(target_path)
+                os.makedirs(parent_dir, exist_ok=True)
+
+            # 解压文件并保留元数据
             zip_ref.extract(zip_info, extract_to)
             
-            # 如果解压后的文件名与预期不一致，重命名文件
-            if not os.path.exists(extracted_path):
-                original_extracted_path = os.path.join(extract_to, zip_info.filename)
-                if os.path.exists(original_extracted_path):
-                    os.rename(original_extracted_path, extracted_path)
-                    logger.info(f"重命名文件：{zip_info.filename} -> {file_name}")
+            # 处理可能的名称不一致问题
+            extracted_path = os.path.join(extract_to, original_filename)
+            if os.path.exists(extracted_path) and extracted_path != target_path:
+                os.rename(extracted_path, target_path)
+                logger.info(f"重命名文件: {original_filename} -> {file_name}")
 
-            # 设置文件的修改时间和访问时间
-            mod_time = time.mktime(zip_info.date_time + (0, 0, -1))
-            os.utime(extracted_path, (mod_time, mod_time))
+            # 设置正确的时间戳
+            if zip_info.date_time:
+                try:
+                    dt = datetime(*zip_info.date_time)
+                    mod_time = dt.timestamp()
+                    os.utime(target_path, (mod_time, mod_time))
+                except Exception as e:
+                    logger.error(f"设置时间戳失败: {target_path}, 错误: {e}")
 
-def copy_with_timestamps(src, dst):
-    # 拷贝文件并保留时间戳
-    shutil.copy2(src, dst)
-    src_stat = os.stat(src)
-    os.utime(dst, (src_stat.st_atime, src_stat.st_mtime))
+def sync_dirs(src, dst):
+    """同步两个目录，保留时间戳"""
+    if not os.path.exists(dst):
+        os.makedirs(dst)
+    
+    dcmp = filecmp.dircmp(src, dst)
+    # 处理新增或修改的文件
+    for file in dcmp.diff_files + dcmp.left_only:
+        src_path = os.path.join(src, file)
+        dst_path = os.path.join(dst, file)
+        if os.path.isdir(src_path):
+            shutil.copytree(src_path, dst_path, dirs_exist_ok=True)
+        else:
+            shutil.copy2(src_path, dst_path)
+        logger.info(f"同步文件: {file}")
+
+    # 递归处理子目录
+    for sub_dir in dcmp.common_dirs:
+        sync_dirs(
+            os.path.join(src, sub_dir),
+            os.path.join(dst, sub_dir)
+        )
 
 async def main():
-    print("开始获取频道最新消息...")
+    try:
+        logger.info("启动Telegram客户端...")
+        await client.start()
+        
+        # 创建必要目录
+        os.makedirs(zx_updated_files_dir, exist_ok=True)
+        os.makedirs(zxdown_dir, exist_ok=True)
 
-    # 创建更新文件目录
-    if not os.path.exists(zx_updated_files_dir):
-        os.makedirs(zx_updated_files_dir)
-        print(f"更新文件目录已创建：{zx_updated_files_dir}")
-    else:
-        print(f"更新文件目录已存在：{zx_updated_files_dir}")
+        logger.info("获取频道最新消息...")
+        async for message in client.iter_messages(channel_username, limit=1):
+            if not message.media or not isinstance(message.media, MessageMediaDocument):
+                logger.warning("最新消息没有文档附件")
+                return
 
-    # 获取频道最新消息
-    async for message in client.iter_messages(channel_username, limit=1):
-        if message.media:
-            # 获取附件名称
-            attachment_name = message.file.name
-            print(f"获取到最新消息的附件名称：{attachment_name}")
-            # 对比当前目录内的zip文件名称
-            zip_files = [f for f in os.listdir(current_dir) if f.endswith('.zip')]
-            if attachment_name in zip_files:
-                print("附件名称与当前目录内的zip文件名称一致，无需更新，脚本退出。")
-                return  # 退出脚本
-            
-            print("附件名称与当前目录内的zip文件名称不一致，开始下载...")
-            # 下载附件
-            await message.download_media(file=os.path.join(current_dir, attachment_name))
-            print(f"附件下载完成，保存路径：{os.path.join(current_dir, attachment_name)}")
-            
-            # 如果./zxdown目录不存在，则创建
-            if not os.path.exists(zxdown_dir):
-                os.makedirs(zxdown_dir)
-                print(f"创建了新的./zxdown目录：{zxdown_dir}")
-            else:
-                print(f"保留旧的./zxdown目录：{zxdown_dir}")
-            
-            # 解压到./zxdown目录内，保留文件的原始修改日期
-            extract_zip_with_timestamps(os.path.join(current_dir, attachment_name), zxdown_dir)
-            print(f"附件已解压到./zxdown目录内，保留了文件的原始修改日期")
-            
-            # 删除当前目录中旧的zip文件
-            for old_zip in zip_files:
-                if old_zip != attachment_name:
-                    os.remove(os.path.join(current_dir, old_zip))
-                    print(f"旧的zip文件已删除：{old_zip}")
-            
-            # 处理文件拷贝和更新逻辑
-            update_files = []
-            current_files = [f for f in os.listdir(zx_updated_files_dir) if f not in [os.path.basename(__file__), attachment_name]]
-            
-            if not current_files:
-                print("更新文件目录内没有其它文件，开始拷贝所有文件...")
-                # 更新文件目录内没有其它文件，拷贝所有文件
-                copy_with_timestamps(os.path.join(zxdown_dir, 'custom_spider.jar'), zx_updated_files_dir)
-                update_files.append('custom_spider.jar')
-                for file in os.listdir(zxdown_lib_dir):
-                    if not file.endswith('.md5'):
-                        copy_with_timestamps(os.path.join(zxdown_lib_dir, file), zx_updated_files_dir)
-                        update_files.append(file)
-            else:
-                print("更新文件目录内有其它文件，开始进行对比和更新...")
-                # 更新文件目录内有其它文件，进行对比和更新
-                if not os.path.exists(os.path.join(zx_updated_files_dir, 'custom_spider.jar')) or \
-                   not filecmp.cmp(os.path.join(zxdown_dir, 'custom_spider.jar'), os.path.join(zx_updated_files_dir, 'custom_spider.jar')):
-                    copy_with_timestamps(os.path.join(zxdown_dir, 'custom_spider.jar'), zx_updated_files_dir)
-                    update_files.append('custom_spider.jar')
-                for file in os.listdir(zxdown_lib_dir):
-                    if not file.endswith(('.md5', '.txt')):
-                        if not os.path.exists(os.path.join(zx_updated_files_dir, file)) or \
-                           not filecmp.cmp(os.path.join(zxdown_lib_dir, file), os.path.join(zx_updated_files_dir, file)):
-                            copy_with_timestamps(os.path.join(zxdown_lib_dir, file), zx_updated_files_dir)
-                            update_files.append(file)
-           
-            # 转发信息到群组
-            attachment_info = f"真心最新版本：{attachment_name}\n"
-            update_info = f"更新的文件有：{', '.join(update_files)}\n" if update_files else "无文件更新\n"
-            content_info = message.text.split('更新内容', 1)[1] if '更新内容' in message.text else "无更新内容"
-            await client.send_message(group_username, attachment_info + update_info + content_info)
-            print(f"更新信息已转发到群组：{group_username}")
+            attachment = message.file
+            if not attachment.name.lower().endswith('.zip'):
+                logger.warning("附件不是ZIP文件")
+                return
 
-with client:
-    client.loop.run_until_complete(main())
-    print("脚本执行完毕")
+            zip_name = attachment.name
+            # 检查文件名是否包含“真心”
+            if "真心" not in zip_name:
+                logger.info(f"文件名不包含'真心'，跳过下载：{zip_name}")
+                return
+
+            local_zip = os.path.join(current_dir, zip_name)
+
+            # 检查是否已存在相同文件
+            if os.path.exists(local_zip):
+                logger.info("本地已存在最新版本，无需更新")
+                return
+
+            # 下载ZIP文件
+            logger.info(f"开始下载 {zip_name}...")
+            await message.download_media(file=local_zip)
+            logger.info(f"下载完成，保存至 {local_zip}")
+
+            # 解压文件
+            logger.info("开始解压文件...")
+            extract_zip_with_timestamps(local_zip, zxdown_dir)
+            
+            # 同步到更新目录
+            logger.info("同步文件到更新目录...")
+            sync_dirs(zxdown_dir, zx_updated_files_dir)
+
+            # 可选：发送通知到群组
+            if group_username:
+                await client.send_message(
+                    group_username,
+                    f"✅ 已成功更新文件库\n版本: {zip_name[:-4]}\n更新时间: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
+                )
+                logger.info("已发送更新通知到群组")
+
+            # 清理旧版本（保留最近3个版本）
+            zip_files = sorted(
+                [f for f in os.listdir(current_dir) if f.endswith('.zip')],
+                key=lambda f: os.path.getmtime(os.path.join(current_dir, f)),
+                reverse=True
+            )
+            for old_zip in zip_files[3:]:
+                os.remove(os.path.join(current_dir, old_zip))
+                logger.info(f"清理旧版本: {old_zip}")
+
+    except Exception as e:
+        logger.error(f"程序运行出错: {str(e)}")
+        raise
+    finally:
+        await client.disconnect()
+
+if __name__ == '__main__':
+    with client:
+        client.loop.run_until_complete(main())
