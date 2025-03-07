@@ -20,9 +20,6 @@ logger = logging.getLogger(__name__)
 api_id = os.getenv('API_ID')
 api_hash = os.getenv('API_HASH')
 string_session = os.getenv('STRING_SESSION')
-PROXY_HOST = os.getenv('PROXY_HOST', '127.0.0.1')
-PROXY_PORT = int(os.getenv('PROXY_PORT', 7890))
-proxy = ('socks5', PROXY_HOST, PROXY_PORT) if PROXY_HOST and PROXY_PORT else None
 channel_username = os.getenv('CHANNEL_USERNAME')
 group_username = os.getenv('GROUP_USERNAME')
 
@@ -40,8 +37,7 @@ logger.info(f"更新文件目录：{zx_updated_files_dir}")
 # 创建Telegram客户端
 client = TelegramClient(
     StringSession(string_session),
-    api_id, api_hash,
-    proxy=None
+    api_id, api_hash
 )
 
 def extract_zip_with_timestamps(zip_path, extract_to):
