@@ -90,6 +90,20 @@ def sync_dirs(src, dst):
     for sub_dir in dcmp.common_dirs:
         sync_dirs(os.path.join(src, sub_dir), os.path.join(dst, sub_dir))
 
+def parse_date_from_filename(filename):
+    """从文件名中提取日期部分并转换为日期对象"""
+    # 假设文件名格式为 真心YYYYMMDD-*.zip 或 真心YYYYMMDD.zip
+    import re
+    date_pattern = r'真心(\d{8})'
+    match = re.search(date_pattern, filename)
+    if match:
+        date_str = match.group(1)
+        try:
+            return datetime.strptime(date_str, '%Y%m%d')
+        except ValueError:
+            logger.warning(f"无法解析文件名中的日期: {filename}")
+    return None
+
 async def main():
     try:
         logger.info("启动Telegram客户端...")
@@ -100,6 +114,9 @@ async def main():
         os.makedirs(zxdown_dir, exist_ok=True)
 
         logger.info("开始扫描频道消息...")
+        latest_zip = None
+        latest_date = None
+
         async for message in client.iter_messages(channel_username, reverse=True):
             # 仅处理包含文档附件的消息
             if not message.media or not isinstance(message.media, MessageMediaDocument):
@@ -112,51 +129,67 @@ async def main():
             zip_name = attachment.name
             logger.info(f"发现ZIP文件: {zip_name}")
 
-            # 关键修改：严格检查文件名是否以“真心”开头且不含双引号
+            # 检查文件名是否符合要求
             if not (zip_name.startswith("真心") and '"' not in zip_name):
                 logger.info(f"文件不符合要求，跳过处理。要求：以'真心'开头且不含双引号")
                 continue
 
-            local_zip = os.path.join(current_dir, zip_name)
-
-            # 如果文件已存在，跳过下载
-            if os.path.exists(local_zip):
-                logger.info(f"文件已存在，跳过下载: {zip_name}")
+            # 提取文件名中的日期
+            file_date = parse_date_from_filename(zip_name)
+            if not file_date:
+                logger.warning(f"无法提取日期，跳过文件: {zip_name}")
                 continue
 
-            # 下载文件
-            logger.info(f"开始下载符合要求的文件: {zip_name}")
-            await message.download_media(file=local_zip)
-            logger.info(f"文件已保存至: {local_zip}")
+            # 记录最新的文件
+            if (latest_date is None) or (file_date > latest_date):
+                latest_zip = zip_name
+                latest_date = file_date
+                logger.info(f"找到更新的文件: {zip_name}，日期: {file_date.strftime('%Y-%m-%d')}")
 
-            # 解压文件
-            logger.info("开始解压...")
-            extract_zip_with_timestamps(local_zip, zxdown_dir)
-            
-            # 同步到更新目录
-            logger.info("同步文件到更新目录...")
-            sync_dirs(zxdown_dir, zx_updated_files_dir)
+        if not latest_zip:
+            logger.info("未找到符合条件的文件，退出脚本")
+            return
 
-            # 发送通知（可选）
-            if group_username:
-                await client.send_message(
-                    group_username,
-                    f"✅ 已下载最新文件\n文件名: {zip_name}\n时间: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
-                )
-                logger.info("已发送通知到群组")
+        local_zip = os.path.join(current_dir, latest_zip)
 
-            # 清理旧版本（保留最近3个）
-            zip_files = sorted(
-                [f for f in os.listdir(current_dir) if f.endswith('.zip')],
-                key=lambda f: os.path.getmtime(os.path.join(current_dir, f)),
-                reverse=True
+        # 检查是否已存在相同文件
+        if os.path.exists(local_zip):
+            logger.info("本地已存在最新版本，无需更新")
+            return
+
+        # 下载文件
+        logger.info(f"开始下载最新文件: {latest_zip}")
+        async for message in client.iter_messages(channel_username, reverse=True):
+            if message.file.name == latest_zip:
+                await message.download_media(file=local_zip)
+                break
+        logger.info(f"文件已保存至: {local_zip}")
+
+        # 解压文件
+        logger.info("开始解压...")
+        extract_zip_with_timestamps(local_zip, zxdown_dir)
+        
+        # 同步到更新目录
+        logger.info("同步文件到更新目录...")
+        sync_dirs(zxdown_dir, zx_updated_files_dir)
+
+        # 发送通知（可选）
+        if group_username:
+            await client.send_message(
+                group_username,
+                f"✅ 已下载最新文件\n文件名: {latest_zip}\n时间: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
             )
-            for old_zip in zip_files[3:]:
-                os.remove(os.path.join(current_dir, old_zip))
-                logger.info(f"已清理旧版本: {old_zip}")
+            logger.info("已发送通知到群组")
 
-            # 找到第一个符合条件的文件后退出循环
-            break
+        # 清理旧版本（保留最近3个）
+        zip_files = sorted(
+            [f for f in os.listdir(current_dir) if f.endswith('.zip')],
+            key=lambda f: os.path.getmtime(os.path.join(current_dir, f)),
+            reverse=True
+        )
+        for old_zip in zip_files[3:]:
+            os.remove(os.path.join(current_dir, old_zip))
+            logger.info(f"已清理旧版本: {old_zip}")
 
     except Exception as e:
         logger.error(f"运行时错误: {str(e)}")
