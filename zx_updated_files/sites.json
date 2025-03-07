@@ -1,0 +1,98 @@
+{  "sites": [
+    {
+        "key": "豆瓣💓",
+        "name": "豆瓣💓版本号💓",
+        "type": 3,
+        "api": "csp_TgYunDouBanPan",
+        "searchable": 1,
+        "changeable": 0,
+        "ext": {
+            "siteUrl": "https://zx-tgs.601417.us.kg",
+            "count": 4,
+            "channelUsername": "tgsearchers,guaguale115,ydypzyfx,shareAliyun,ucpanpan,ucquark,alyp_1,hao115,Aliyun_4K_Movies",
+            "commonConfig": "./json/peizhi.json",
+            "filter": "./json/douban.json"
+        }
+    },
+    {
+        "key": "豆瓣",
+        "name": "TG搜💓版本号💓",
+        "type": 3,
+        "api": "csp_TgYunDouBanPan",
+        "searchable": 1,
+        "changeable": 0,
+        "ext": {
+            "siteUrl": "http://tgsou.fish2018.us.kg",
+            "count": 4,
+            "channelUsername": "tgsearchers,guaguale115,ydypzyfx,shareAliyun,ucpanpan,ucquark,alyp_1,hao115,Aliyun_4K_Movies",
+            "commonConfig": "./json/peizhi.json",
+            "filter": "./json/douban.json"
+        }
+    },
+    {
+        "key": "真心网盘",
+        "name": "真心网盘集合",
+        "type": 3,
+        "api": "csp_网盘集合",
+        "searchable": 1,
+        "filterable": 0,
+        "switchable": 0,
+        "ext": {
+            "commonConfig": "./json/wogg.json",
+            "share": "./json/真心.json"
+        }
+    },
+    {
+        "key": "真心115网盘",
+        "name": "真心115网盘",
+        "type": 3,
+        "api": "csp_网盘集合",
+        "searchable": 1,
+        "filterable": 0,
+        "switchable": 0,
+        "ext": {
+            "commonConfig": "./json/wogg.json",
+            "share": "./json/115网盘.json"
+        }
+    },
+    {
+        "key": "真心115网盘1",
+        "name": "真心115网盘1",
+        "type": 3,
+        "api": "csp_网盘集合",
+        "searchable": 1,
+        "filterable": 0,
+        "switchable": 0,
+        "ext": {
+            "commonConfig": "./json/wogg.json",
+            "share": "./json/115网盘1.json"
+        }
+    },
+    {
+        "key": "真心UC网盘",
+        "name": "真心UC网盘",
+        "type": 3,
+        "api": "csp_网盘集合",
+        "searchable": 1,
+        "filterable": 0,
+        "switchable": 0,
+        "ext": {
+            "commonConfig": "./json/wogg.json",
+            "share": "./json/UC网盘.json"
+        }
+    },
+    {
+        "key": "真心夸克网盘",
+        "name": "真心夸克网盘",
+        "type": 3,
+        "api": "csp_网盘集合",
+        "searchable": 1,
+        "filterable": 0,
+        "switchable": 0,
+        "ext": {
+            "commonConfig": "./json/wogg.json",
+            "share": "./json/夸克网盘.json"
+        }
+    }
+]
+}
