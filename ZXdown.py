@@ -1,7 +1,6 @@
 import os
 import zipfile
 import shutil
-import filecmp
 import logging
 from datetime import datetime
 from telethon import TelegramClient
@@ -34,41 +33,74 @@ logger.info(f"更新文件目录：{zx_updated_files_dir}")
 # 创建Telegram客户端
 client = TelegramClient(StringSession(string_session), api_id, api_hash)
 
+def decode_filename(zip_info):
+    """
+    解码 ZIP 文件名，优先检测 ZIP 的 EFS 标志（UTF-8 编码），
+    若无则尝试常见编码组合
+    """
+    original = zip_info.filename
+    # 检查 EFS 标志（0x800），表示使用 UTF-8
+    if zip_info.flag_bits & 0x800:
+        try:
+            return original.encode('utf-8').decode('utf-8')
+        except UnicodeDecodeError:
+            pass
+
+    # 常见编码组合尝试列表（按优先级排序）
+    encodings = [
+        ('cp437', 'gbk'),      # Windows 简体中文
+        ('cp437', 'big5'),     # 繁体中文
+        ('cp932', 'shift_jis'),# 日文
+        ('iso-8859-1', 'gbk'), 
+        ('iso-8859-1', 'big5'),
+        ('gb18030', 'gb18030') # 更全面的中文编码
+    ]
+
+    for src_enc, dst_enc in encodings:
+        try:
+            # 处理特殊字符（如无法转换的字节用替换字符忽略）
+            return original.encode(src_enc).decode(dst_enc, errors='replace')
+        except (UnicodeEncodeError, UnicodeDecodeError):
+            continue
+
+    # 最终尝试使用 UTF-8 并忽略错误
+    try:
+        return original.encode('utf-8').decode('utf-8', errors='replace')
+    except UnicodeDecodeError:
+        return original  # 保底返回原始名称
+
 def extract_zip_with_timestamps(zip_path, extract_to):
-    """解压ZIP文件并保留时间戳，处理中文文件名乱码"""
+    """解压 ZIP 文件并修复中文乱码"""
     with zipfile.ZipFile(zip_path, 'r') as zip_ref:
         for zip_info in zip_ref.infolist():
-            # 处理文件名编码
-            original_filename = zip_info.filename
-            try:
-                file_name = original_filename.encode('utf-8').decode('utf-8')
-            except UnicodeDecodeError:
-                try:
-                    file_name = original_filename.encode('cp437').decode('gbk')
-                except Exception as e:
-                    logger.warning(f"文件名解码失败，使用原始名称: {original_filename}, 错误: {e}")
-                    file_name = original_filename
+            # 解码文件名
+            decoded_name = decode_filename(zip_info)
+            logger.info(f"原始文件名: {zip_info.filename} → 解码后: {decoded_name}")
 
-            # 构建解压路径
-            target_path = os.path.join(extract_to, file_name)
-            if os.path.sep in file_name:
-                os.makedirs(os.path.dirname(target_path), exist_ok=True)
+            # 构建安全路径（防止目录穿越）
+            safe_name = os.path.normpath(decoded_name).lstrip(os.sep)
+            target_path = os.path.join(extract_to, safe_name)
+
+            # 创建父目录
+            parent_dir = os.path.dirname(target_path)
+            os.makedirs(parent_dir, exist_ok=True)
 
             # 解压并重命名（解决编码不一致问题）
-            zip_ref.extract(zip_info, extract_to)
-            extracted_path = os.path.join(extract_to, original_filename)
-            if os.path.exists(extracted_path) and extracted_path != target_path:
-                os.rename(extracted_path, target_path)
-                logger.info(f"重命名文件: {original_filename} -> {file_name}")
+            extracted_temp = zip_ref.extract(zip_info, extract_to)
+            
+            # 如果临时文件名与目标不同，则重命名
+            if os.path.abspath(extracted_temp) != os.path.abspath(target_path):
+                shutil.move(extracted_temp, target_path)
+                logger.info(f"重命名: {os.path.basename(extracted_temp)} → {safe_name}")
 
-            # 设置时间戳
+            # 设置时间戳（精确到秒）
             if zip_info.date_time:
                 try:
                     dt = datetime(*zip_info.date_time)
                     mod_time = dt.timestamp()
                     os.utime(target_path, (mod_time, mod_time))
                 except Exception as e:
-                    logger.error(f"设置时间戳失败: {target_path}, 错误: {e}")
+                    logger.error(f"时间戳设置失败: {target_path}, 错误: {e}")
 
 def sync_dirs(src, dst):
     """同步目录并保留时间戳"""
@@ -197,7 +229,8 @@ async def main():
             reverse=True
         )
         for old_zip in zip_files[3:]:
-            os.remove(os.path.join(current_dir, old_zip))
+            file_path = os.path.join(current_dir, old_zip)
+            os.remove(file_path)
             logger.info(f"已清理旧版本: {old_zip}")
 
     except Exception as e:
