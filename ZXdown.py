@@ -1,6 +1,7 @@
 import os
 import zipfile
 import shutil
+import filecmp
 import logging
 from datetime import datetime
 from telethon import TelegramClient
