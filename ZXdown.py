@@ -92,7 +92,6 @@ def sync_dirs(src, dst):
 
 def parse_date_from_filename(filename):
     """从文件名中提取日期部分并转换为日期对象"""
-    # 假设文件名格式为 真心YYYYMMDD-*.zip 或 真心YYYYMMDD.zip
     import re
     date_pattern = r'真心(\d{8})'
     match = re.search(date_pattern, filename)
@@ -116,6 +115,7 @@ async def main():
         logger.info("开始扫描频道消息...")
         latest_zip = None
         latest_date = None
+        latest_msg_id = None
 
         async for message in client.iter_messages(channel_username, reverse=True):
             # 仅处理包含文档附件的消息
@@ -140,11 +140,12 @@ async def main():
                 logger.warning(f"无法提取日期，跳过文件: {zip_name}")
                 continue
 
-            # 记录最新的文件
+            # 记录最新的文件及其消息ID
             if (latest_date is None) or (file_date > latest_date):
                 latest_zip = zip_name
                 latest_date = file_date
-                logger.info(f"找到更新的文件: {zip_name}，日期: {file_date.strftime('%Y-%m-%d')}")
+                latest_msg_id = message.id
+                logger.info(f"找到更新的文件: {zip_name}，日期: {file_date.strftime('%Y-%m-%d')}，消息ID: {latest_msg_id}")
 
         if not latest_zip:
             logger.info("未找到符合条件的文件，退出脚本")
@@ -157,13 +158,21 @@ async def main():
             logger.info("本地已存在最新版本，无需更新")
             return
 
-        # 下载文件
-        logger.info(f"开始下载最新文件: {latest_zip}")
-        async for message in client.iter_messages(channel_username, reverse=True):
-            if message.file.name == latest_zip:
+        # 使用消息ID直接获取消息
+        if latest_msg_id is not None:
+            logger.info(f"获取消息ID: {latest_msg_id} 对应的消息...")
+            message = await client.get_messages(channel_username, ids=latest_msg_id)
+            if message and message.media and isinstance(message.media, MessageMediaDocument):
+                # 下载文件
+                logger.info(f"开始下载最新文件: {latest_zip}")
                 await message.download_media(file=local_zip)
-                break
-        logger.info(f"文件已保存至: {local_zip}")
+                logger.info(f"文件已保存至: {local_zip}")
+            else:
+                logger.error(f"无法获取消息ID: {latest_msg_id} 的消息内容")
+                return
+        else:
+            logger.error("未找到有效消息ID，无法下载文件")
+            return
 
         # 解压文件
         logger.info("开始解压...")
