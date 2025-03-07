@@ -31,7 +31,7 @@ logger.info(f"当前目录：{current_dir}")
 logger.info(f"zxdown目录：{zxdown_dir}")
 logger.info(f"更新文件目录：{zx_updated_files_dir}")
 
-# 创建Telegram客户端（无代理配置）
+# 创建Telegram客户端
 client = TelegramClient(StringSession(string_session), api_id, api_hash)
 
 def extract_zip_with_timestamps(zip_path, extract_to):
@@ -99,32 +99,30 @@ async def main():
         os.makedirs(zx_updated_files_dir, exist_ok=True)
         os.makedirs(zxdown_dir, exist_ok=True)
 
-        logger.info("检查频道最新消息...")
-        async for message in client.iter_messages(channel_username, limit=1):
-            # 验证消息类型
+        logger.info("开始扫描频道消息...")
+        async for message in client.iter_messages(channel_username, reverse=True):
+            # 仅处理包含文档附件的消息
             if not message.media or not isinstance(message.media, MessageMediaDocument):
-                logger.warning("最新消息没有文档附件")
-                return
+                continue
 
-            # 获取附件信息
             attachment = message.file
             if not attachment.name.lower().endswith('.zip'):
-                logger.warning("附件不是ZIP文件")
-                return
+                continue
 
             zip_name = attachment.name
-            # 关键修改：文件名检查逻辑
+            logger.info(f"发现ZIP文件: {zip_name}")
+
+            # 关键修改：严格检查文件名是否以“真心”开头且不含双引号
             if not (zip_name.startswith("真心") and '"' not in zip_name):
-                logger.info(f"文件不符合要求，跳过处理。文件名: {zip_name}")
-                logger.info("要求：以'真心'开头且不含双引号")
-                return
+                logger.info(f"文件不符合要求，跳过处理。要求：以'真心'开头且不含双引号")
+                continue
 
             local_zip = os.path.join(current_dir, zip_name)
 
-            # 检查是否已存在相同文件
+            # 如果文件已存在，跳过下载
             if os.path.exists(local_zip):
-                logger.info("本地已存在相同版本，无需更新")
-                return
+                logger.info(f"文件已存在，跳过下载: {zip_name}")
+                continue
 
             # 下载文件
             logger.info(f"开始下载符合要求的文件: {zip_name}")
@@ -143,7 +141,7 @@ async def main():
             if group_username:
                 await client.send_message(
                     group_username,
-                    f"✅ 文件更新成功\n文件名: {zip_name}\n时间: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
+                    f"✅ 已下载最新文件\n文件名: {zip_name}\n时间: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
                 )
                 logger.info("已发送通知到群组")
 
@@ -156,6 +154,9 @@ async def main():
             for old_zip in zip_files[3:]:
                 os.remove(os.path.join(current_dir, old_zip))
                 logger.info(f"已清理旧版本: {old_zip}")
+
+            # 找到第一个符合条件的文件后退出循环
+            break
 
     except Exception as e:
         logger.error(f"运行时错误: {str(e)}")
