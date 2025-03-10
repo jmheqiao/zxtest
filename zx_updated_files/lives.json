@@ -9,9 +9,9 @@
       "logo": "https://epg.112114.xyz/logo/{name}.png"
     },
     {
-      "name": "hkl_Mytv免翻",
+      "name": "m3u_cf代理",
       "type": 0,
-      "url": "http://hkl.601417.eu.org/mytv.m3u",
+      "url": "https://m3u.jmxh.us.kg",
       "ua": "okhttp/3.15",
       "epg": "http://127.0.0.1:10079/p/0/proxy/http://epg.112114.xyz/?ch={name}&date={date}",
       "logo": "https://epg.112114.xyz/logo/{name}.png"
@@ -59,7 +59,7 @@
     {
       "name": "HKDVB(1)",
       "type": 0,
-      "url": "https://live.hkdvb.com/hls/playlist.m3u?token=407713096882491",
+      "url": "https://live.hkdvb.com/hls/playlist.m3u?token=407713096806745",
       "ua": "okhttp/3.15",
       "epg": "http://127.0.0.1:10079/p/0/proxy/http://epg.112114.xyz/?ch={name}&date={date}",
       "logo": "https://epg.112114.xyz/logo/{name}.png"
@@ -67,7 +67,7 @@
     {
       "name": "HKDVB(2)",
       "type": 0,
-      "url": "https://live.hkdvb.com/hls/playlist.m3u?token=623374676517296",
+      "url": "https://live.hkdvb.com/hls/playlist.m3u?token=623374676506428",
       "ua": "okhttp/3.15",
       "epg": "http://127.0.0.1:10079/p/0/proxy/http://epg.112114.xyz/?ch={name}&date={date}",
       "logo": "https://epg.112114.xyz/logo/{name}.png"
