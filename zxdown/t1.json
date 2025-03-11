@@ -1,9 +1,9 @@
 {
-    "version": "20250309-1",
+    "version": "20250310",
     "sites": [
         {
             "key": "豆瓣💓",
-            "name": "豆瓣💓20250309-1💓",
+            "name": "豆瓣💓20250310💓",
             "type": 3,
             "api": "csp_TgYunDouBanPan",
             "searchable": 1,
@@ -18,7 +18,7 @@
         },
         {
             "key": "豆瓣",
-            "name": "TG搜💓20250309-1💓",
+            "name": "TG搜💓20250310💓",
             "type": 3,
             "api": "csp_TgYunDouBanPan",
             "searchable": 1,
