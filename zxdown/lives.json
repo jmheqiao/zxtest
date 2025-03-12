@@ -11,7 +11,7 @@
     {
       "name": "m3u_cf代理",
       "type": 0,
-      "url": "https://m3u.jmxh.us.kg",
+      "url": "https://m3u.601417.eu.org",
       "ua": "okhttp/3.15",
       "epg": "http://127.0.0.1:10079/p/0/proxy/http://epg.112114.xyz/?ch={name}&date={date}",
       "logo": "https://epg.112114.xyz/logo/{name}.png"
@@ -153,17 +153,17 @@
       "logo": "https://epg.112114.xyz/logo/{name}.png"
     },
     {
-      "name": "JUNDIE",
+      "name": "iTV",
       "type": 0,
-      "url": "http://home.jundie.top:81/ray/tvlive.txt",
+      "url": "http://wg.itoto.vip:50003/Sub?type=txt",
       "ua": "okhttp/3.15",
       "epg": "http://127.0.0.1:10079/p/0/proxy/http://epg.112114.xyz/?ch={name}&date={date}",
       "logo": "https://epg.112114.xyz/logo/{name}.png"
     },
     {
-      "name": "FreeTV",
+      "name": "4gtv整合-wdy",
       "type": 0,
-      "url": "https://www.freetv.top/migu.m3u",
+      "url": "http://wdy.601417.eu.org:55007/?type=m3u",
       "ua": "okhttp/3.15",
       "epg": "http://127.0.0.1:10079/p/0/proxy/http://epg.112114.xyz/?ch={name}&date={date}",
       "logo": "https://epg.112114.xyz/logo/{name}.png"
