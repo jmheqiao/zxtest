@@ -169,9 +169,17 @@
       "logo": "https://epg.112114.xyz/logo/{name}.png"
     },
     {
+      "name": "4gtv-hkg",
+      "type": 0,
+      "url": "http://hkg.601417.eu.org:58000/itv.m3u",
+      "ua": "okhttp/3.15",
+      "epg": "http://127.0.0.1:10079/p/0/proxy/http://epg.112114.xyz/?ch={name}&date={date}",
+      "logo": "https://epg.112114.xyz/logo/{name}.png"
+    },
+    {
       "name": "Catvod",
       "type": 0,
-      "url": "https://live.catvod.com/tv.m3ut",
+      "url": "https://live.catvod.com/tv.m3u",
       "ua": "okhttp/3.15",
       "epg": "http://127.0.0.1:10079/p/0/proxy/http://epg.112114.xyz/?ch={name}&date={date}",
       "logo": "https://epg.112114.xyz/logo/{name}.png"
