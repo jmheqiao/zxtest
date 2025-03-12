@@ -169,7 +169,7 @@
       "logo": "https://epg.112114.xyz/logo/{name}.png"
     },
     {
-      "name": "4gtv-hkg",
+      "name": "iTV-hkg",
       "type": 0,
       "url": "http://hkg.601417.eu.org:58000/itv.m3u",
       "ua": "okhttp/3.15",
