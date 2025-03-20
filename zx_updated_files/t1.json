@@ -1,9 +1,9 @@
 {
-    "version": "20250312-1 (1)",
+    "version": "20250313",
     "sites": [
         {
             "key": "豆瓣💓",
-            "name": "豆瓣💓20250312-1 (1)💓",
+            "name": "豆瓣💓20250313💓",
             "type": 3,
             "api": "csp_TgYunDouBanPan",
             "searchable": 1,
@@ -18,7 +18,7 @@
         },
         {
             "key": "豆瓣",
-            "name": "TG搜💓20250312-1 (1)💓",
+            "name": "TG搜💓20250313💓",
             "type": 3,
             "api": "csp_TgYunDouBanPan",
             "searchable": 1,
@@ -548,15 +548,15 @@
         {
             "name": "hkl_CF免翻",
             "type": 0,
-            "url": "http://tv.601417.eu.org/",
+            "url": "http://hkltv.601417.eu.org",
             "ua": "judy/5.2.1",
             "epg": "http://127.0.0.1:10079/p/0/proxy/http://epg.112114.xyz/?ch={name}&date={date}",
             "logo": "https://epg.112114.xyz/logo/{name}.png"
         },
         {
-            "name": "hkl_Mytv混合",
+            "name": "wdy_CF免翻",
             "type": 0,
-            "url": "http://hkl.601417.eu.org:8899/mytv",
+            "url": "http://wdytv.601417.eu.org",
             "ua": "okhttp/3.15",
             "epg": "http://127.0.0.1:10079/p/0/proxy/http://epg.112114.xyz/?ch={name}&date={date}",
             "logo": "https://epg.112114.xyz/logo/{name}.png"
@@ -564,7 +564,7 @@
         {
             "name": "IPTV研究所",
             "type": 0,
-            "url": "https://video.mytvsuper.xyz/playlist/zong-he-ding-yue.m3u?token=407713096921795",
+            "url": "https://video.mytvsuper.xyz/playlist/zong-he-ding-yue.m3u?token=623374676481360",
             "ua": "judy/5.2.1",
             "epg": "http://127.0.0.1:10079/p/0/proxy/http://epg.112114.xyz/?ch={name}&date={date}",
             "logo": "https://epg.112114.xyz/logo/{name}.png"
@@ -698,17 +698,9 @@
             "logo": "https://epg.112114.xyz/logo/{name}.png"
         },
         {
-            "name": "iTV-hkg",
-            "type": 0,
-            "url": "http://hkg.601417.eu.org:58000/itv.m3u",
-            "ua": "okhttp/3.15",
-            "epg": "http://127.0.0.1:10079/p/0/proxy/http://epg.112114.xyz/?ch={name}&date={date}",
-            "logo": "https://epg.112114.xyz/logo/{name}.png"
-        },
-        {
             "name": "Catvod",
             "type": 0,
-            "url": "https://live.catvod.com/tv.m3u",
+            "url": "https://live.catvod.com/tv.m3ut",
             "ua": "okhttp/3.15",
             "epg": "http://127.0.0.1:10079/p/0/proxy/http://epg.112114.xyz/?ch={name}&date={date}",
             "logo": "https://epg.112114.xyz/logo/{name}.png"
