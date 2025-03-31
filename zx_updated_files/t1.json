@@ -1,9 +1,9 @@
 {
-    "version": "20250325",
+    "version": "20250330",
     "sites": [
         {
             "key": "豆瓣💓",
-            "name": "豆瓣💓20250325💓",
+            "name": "豆瓣💓20250330💓",
             "type": 3,
             "api": "csp_TgYunDouBanPan",
             "searchable": 1,
@@ -18,7 +18,7 @@
         },
         {
             "key": "豆瓣",
-            "name": "TG搜💓20250325💓",
+            "name": "TG搜💓20250330💓",
             "type": 3,
             "api": "csp_TgYunDouBanPan",
             "searchable": 1,
@@ -491,6 +491,15 @@
                 "港台动漫",
                 "海外动漫"
             ]
+        },
+        {
+            "key": "豆瓣采集资源",
+            "name": "豆瓣 | 采集",
+            "type": 1,
+            "api": "https://caiji.dbzy.tv/api.php/provide/vod/from/dbm3u8/at/josn/",
+            "playerType": 1,
+            "searchable": 1,
+            "changeable": 1
         },
         {
             "key": "量子",
