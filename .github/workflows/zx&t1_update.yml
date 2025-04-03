@@ -32,6 +32,12 @@ jobs:
           python -m pip install --upgrade pip
           pip install telethon
 
+      - name: 安装 Git LFS
+        run: |
+         git lfs install
+         git lfs pull
+         ```[3,7](@ref)
+
       # 4. 设置环境变量
       - name: Set environment variables
         run: |
