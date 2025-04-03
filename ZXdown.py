@@ -52,7 +52,7 @@ def decode_filename(zip_info):
         ('cp437', 'gbk'),      # Windows 简体中文
         ('cp437', 'big5'),     # 繁体中文
         ('cp932', 'shift_jis'),# 日文
-        ('iso-8859-1', 'gbk'), 
+        ('iso-8859-1', 'gbk'),
         ('iso-8859-1', 'big5'),
         ('gb18030', 'gb18030') # 更全面的中文编码
     ]
