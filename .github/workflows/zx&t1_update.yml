@@ -77,6 +77,12 @@ jobs:
         run: |
           python t1.py
 
+     - name: 修复 LFS 指针
+       run: |
+         git lfs migrate import --include="*.zip" --everything
+         git reflog expire --expire=now --all
+         git gc --prune=now
+
       # 9. 提交并推送更改
       - name: Commit and push changes
         run: |
