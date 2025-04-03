@@ -1,0 +1,16 @@
+name: Clean Large Files
+on: [workflow_dispatch]
+jobs:
+  clean:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0  # 获取完整提交历史
+        lfs: true
+    - name: 清理历史大文件
+      run: |
+        git filter-branch --force --index-filter \
+        "git rm -rf --cached --ignore-unmatch *.zip" \
+        --prune-empty --tag-name-filter cat -- --all
+        git push origin main --force
