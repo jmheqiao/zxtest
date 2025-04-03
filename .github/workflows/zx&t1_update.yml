@@ -36,7 +36,6 @@ jobs:
         run: |
          git lfs install
          git lfs pull
-         ```[3,7](@ref)
 
       # 4. 设置环境变量
       - name: Set environment variables
