@@ -1,9 +1,9 @@
 {
-    "version": "20250402-全量包",
+    "version": "20250330-1",
     "sites": [
         {
             "key": "豆瓣💓",
-            "name": "豆瓣💓20250402-全量包💓",
+            "name": "豆瓣💓20250330-1💓",
             "type": 3,
             "api": "csp_TgYunDouBanPan",
             "searchable": 1,
@@ -18,7 +18,7 @@
         },
         {
             "key": "豆瓣",
-            "name": "TG搜💓20250402-全量包💓",
+            "name": "TG搜💓20250330-1💓",
             "type": 3,
             "api": "csp_TgYunDouBanPan",
             "searchable": 1,
@@ -142,7 +142,7 @@
             "api": "csp_Living",
             "searchable": 1,
             "changeable": 0,
-            "ext": "http://127.0.0.1:9966/api/proxy/https://lemonlive.pages.dev"
+            "ext": "http://127.0.0.1:9966/api/proxy/https://lemonlive25.pages.dev"
         },
         {
             "key": "玩偶 | 闪电uc",
