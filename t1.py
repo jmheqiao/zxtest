@@ -15,6 +15,7 @@ def remove_json_comments(text):
             in_string = not in_string
             result.append(c)
         elif not in_string and c == '/' and (i + 1 < n) and text[i+1] == '/':
+            # 找到注释，跳过直到行末
             while i < n and text[i] not in ('\n', '\r'):
                 i += 1
             continue
@@ -38,20 +39,15 @@ def load_json(file_path, strip_comments=False):
         return json.loads(content)
 
 def update_json(base_json, sites_data, lives_data, version):
-    """更新 JSON 数据（version字段前置，新数据前置）"""
-    # 创建新字典确保version成为首个字段
+    """更新 JSON 数据，将新内容追加到原内容前面，并添加版本号"""
     updated_json = {"version": version}
-    # 合并原字典的其他字段
-    for key, value in base_json.items():
-        if key not in ["version"]:
-            updated_json[key] = value
-    
-    # 处理数组合并（新数据前置）
     if sites_data:
         updated_json["sites"] = sites_data + base_json.get("sites", [])
     if lives_data:
         updated_json["lives"] = lives_data + base_json.get("lives", [])
-    
+    for key, value in base_json.items():
+        if key not in ["sites", "lives"]:
+            updated_json[key] = value
     return updated_json
 
 def replace_version(data, version):
@@ -65,7 +61,7 @@ def replace_version(data, version):
     return data
 
 def save_json(file_path, data):
-    """保存 JSON 文件（保持字典顺序）"""
+    """保存 JSON 文件"""
     with open(file_path, 'w', encoding='utf-8') as file:
         json.dump(data, file, ensure_ascii=False, indent=4)
 
@@ -110,12 +106,13 @@ def update_peizhi_with_pei_in(base_path):
     peizhi1_path = os.path.join(base_path, "zxdown", "json", "peizhi1.json")
 
     pei_in_data = load_json(pei_in_path)
-    peizhi_data = load_json(peizhi_path, strip_comments=True)
+    peizhi_data = load_json(peizhi_path, strip_comments=True)  # 处理注释
 
     for key, value in pei_in_data.items():
         peizhi_data[key] = value
 
     save_json(peizhi1_path, peizhi_data)
+    print(f"peizhi1.json 文件已生成，保存路径: {peizhi1_path}。")
 
 def main():
     base_path = os.path.dirname(os.path.abspath(__file__))
@@ -123,7 +120,7 @@ def main():
     jsm_path = os.path.join(zxdown_dir, "FongMi.json")
     sites_path = os.path.join(zxdown_dir, "sites.json")
     lives_path = os.path.join(zxdown_dir, "lives.json")
-    output_path = os.path.join(zxdown_dir, "t1.json")  # 修改输出文件名
+    output_path = os.path.join(zxdown_dir, "t1.json")
 
     if not os.path.exists(zxdown_dir):
         os.makedirs(zxdown_dir)
@@ -138,28 +135,28 @@ def main():
         return
 
     try:
-        # 加载基础配置（保留注释处理）
-        base_json = load_json(jsm_path, strip_comments=True)
-        
-        # 加载新数据
+        base_json = load_json(jsm_path)
         sites_data = load_json(sites_path)["sites"]
-        lives_data = load_json(lives_path)["lives"]
+        print(f"加载 sites.json 数据完成。")
 
-        # 合并数据（关键修改点）
+        lives_data = load_json(lives_path)["lives"]
+        print(f"加载 lives.json 数据完成。")
+
         updated_json = update_json(base_json, sites_data, lives_data, version)
         final_json = replace_version(updated_json, version)
         final_json = replace_peizhi_in_t1(final_json)
 
-        # 保存结果
         save_json(output_path, final_json)
-        print(f"t1.json 生成成功：{output_path}")
+        print(f"t1.json 文件已生成，保存路径: {output_path}。")
 
-        # 更新记录文件
         update_last_modified(os.path.join(base_path, zip_file))
+        print(f"已更新 ZIP 文件 {zip_file} 的最后修改时间记录。")
+
         update_peizhi_with_pei_in(base_path)
-        
-    except Exception as e:
-        print(f"处理异常：{str(e)}")
+    except FileNotFoundError as e:
+        print(f"错误: {e}")
+    except json.JSONDecodeError as e:
+        print(f"JSON 解析错误: {e}")
 
 if __name__ == "__main__":
     main()
