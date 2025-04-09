@@ -4,6 +4,196 @@
     "wallpaper": "https://bing.img.run/rand.php",
     "lives": [
         {
+            "name": "MytvsuperA_gh",
+            "type": 0,
+            "url": "https://mytvb.netlify.app/mytvsuperA.m3u",
+            "ua": "okhttp/3.15",
+            "epg": "http://127.0.0.1:10079/p/0/proxy/http://epg.112114.xyz/?ch={name}&date={date}",
+            "logo": "https://epg.112114.xyz/logo/{name}.png"
+        },
+        {
+            "name": "MytvsuperA_v00",
+            "type": 0,
+            "url": "https://heqiao.serv00.net/py/mytvsuper/mytvsuperA.m3u",
+            "ua": "okhttp/3.15",
+            "epg": "http://127.0.0.1:10079/p/0/proxy/http://epg.112114.xyz/?ch={name}&date={date}",
+            "logo": "https://epg.112114.xyz/logo/{name}.png"
+        },
+        {
+            "name": "TVB",
+            "type": 0,
+            "url": "https://tvb.601417.eu.org",
+            "ua": "okhttp/3.15",
+            "epg": "http://127.0.0.1:10079/p/0/proxy/http://epg.112114.xyz/?ch={name}&date={date}",
+            "logo": "https://epg.112114.xyz/logo/{name}.png"
+        },
+        {
+            "name": "m3u_cf代理",
+            "type": 0,
+            "url": "https://m3u.601417.eu.org",
+            "ua": "okhttp/3.15",
+            "epg": "http://127.0.0.1:10079/p/0/proxy/http://epg.112114.xyz/?ch={name}&date={date}",
+            "logo": "https://epg.112114.xyz/logo/{name}.png"
+        },
+        {
+            "name": "hkl_CF免翻",
+            "type": 0,
+            "url": "http://hkltv.601417.eu.org",
+            "ua": "judy/5.2.1",
+            "epg": "http://127.0.0.1:10079/p/0/proxy/http://epg.112114.xyz/?ch={name}&date={date}",
+            "logo": "https://epg.112114.xyz/logo/{name}.png"
+        },
+        {
+            "name": "wdy_CF免翻",
+            "type": 0,
+            "url": "http://wdytv.601417.eu.org",
+            "ua": "okhttp/3.15",
+            "epg": "http://127.0.0.1:10079/p/0/proxy/http://epg.112114.xyz/?ch={name}&date={date}",
+            "logo": "https://epg.112114.xyz/logo/{name}.png"
+        },
+        {
+            "name": "IPTV研究所(作废)",
+            "type": 0,
+            "url": "https://video.mytvsuper.xyz/playlist/zong-he-ding-yue.m3u?token=623374676481360",
+            "ua": "judy/5.2.1",
+            "epg": "http://127.0.0.1:10079/p/0/proxy/http://epg.112114.xyz/?ch={name}&date={date}",
+            "logo": "https://epg.112114.xyz/logo/{name}.png"
+        },
+        {
+            "name": "Mytvsuper-hkl",
+            "type": 0,
+            "url": "http://hkl.601417.eu.org:5000/mytvsuper.m3u",
+            "ua": "okhttp/3.15",
+            "epg": "http://127.0.0.1:10079/p/0/proxy/http://epg.112114.xyz/?ch={name}&date={date}",
+            "logo": "https://epg.112114.xyz/logo/{name}.png"
+        },
+        {
+            "name": "Mytvsuper狐蒂云",
+            "type": 0,
+            "url": "http://jmxh.now.cc:5000/mytvsuper-tivimate.m3u",
+            "ua": "okhttp/3.15",
+            "epg": "http://127.0.0.1:10079/p/0/proxy/http://epg.112114.xyz/?ch={name}&date={date}",
+            "logo": "https://epg.112114.xyz/logo/{name}.png"
+        },
+        {
+            "name": "广东IPTV",
+            "type": 0,
+            "url": "https://cf.601417.eu.org/jmheqiao/freetv/main/gdiptv.m3u?token=heqiao",
+            "ua": "okhttp/3.15",
+            "epg": "http://127.0.0.1:10079/p/0/proxy/http://epg.112114.xyz/?ch={name}&date={date}",
+            "logo": "https://epg.112114.xyz/logo/{name}.png"
+        },
+        {
+            "name": "easy-itv",
+            "type": 0,
+            "url": "http://hkl.601417.eu.org:58123/tv.m3u?token=heqiao",
+            "ua": "okhttp/3.15",
+            "epg": "http://127.0.0.1:10079/p/0/proxy/http://epg.112114.xyz/?ch={name}&date={date}",
+            "logo": "https://epg.112114.xyz/logo/{name}.png"
+        },
+        {
+            "name": "宝全源",
+            "type": 0,
+            "url": "https://d.kstore.dev/download/4878/kx2024.txt",
+            "ua": "okhttp/3.15",
+            "epg": "http://127.0.0.1:10079/p/0/proxy/http://epg.112114.xyz/?ch={name}&date={date}",
+            "logo": "https://epg.112114.xyz/logo/{name}.png"
+        },
+        {
+            "name": "全国",
+            "type": 0,
+            "url": "http://8.138.7.223/live.txt",
+            "ua": "okhttp/3.15",
+            "epg": "http://127.0.0.1:10079/p/0/proxy/http://epg.112114.xyz/?ch={name}&date={date}",
+            "logo": "https://epg.112114.xyz/logo/{name}.png"
+        },
+        {
+            "name": "TVZB",
+            "type": 0,
+            "url": "https://7337.kstore.space/twkj/tvzb.txt",
+            "ua": "okhttp/3.15",
+            "epg": "http://127.0.0.1:10079/p/0/proxy/http://epg.112114.xyz/?ch={name}&date={date}",
+            "logo": "https://epg.112114.xyz/logo/{name}.png"
+        },
+        {
+            "name": "th2020",
+            "type": 0,
+            "url": "http://th2020.f3322.net:35455/",
+            "ua": "okhttp/3.15",
+            "epg": "http://127.0.0.1:10079/p/0/proxy/http://epg.112114.xyz/?ch={name}&date={date}",
+            "logo": "https://epg.112114.xyz/logo/{name}.png"
+        },
+        {
+            "name": "zhoujie218",
+            "type": 0,
+            "url": "https://live.zhoujie218.top/tv/iptv4.m3u",
+            "ua": "okhttp/3.15",
+            "epg": "http://127.0.0.1:10079/p/0/proxy/http://epg.112114.xyz/?ch={name}&date={date}",
+            "logo": "https://epg.112114.xyz/logo/{name}.png"
+        },
+        {
+            "name": "itv",
+            "type": 0,
+            "url": "https://d.kstore.dev/download/10622/iptv/itv1.txt",
+            "ua": "okhttp/3.15",
+            "epg": "http://epg.112114.xyz/?ch={name}&date={date}",
+            "logo": "https://epg.112114.xyz/logo/{name}.png",
+            "catchup": {
+                "type": "append",
+                "source": "?livemode=4&starttime=${(b)yyyyMMdd'T'HHmm}00.00Z&endtime=${(e)yyyyMMdd'T'HHmm}00.00Z"
+            }
+        },
+        {
+            "name": "4gtv整合-wdy",
+            "type": 0,
+            "url": "http://wdy.601417.eu.org:55007/?type=m3u",
+            "ua": "okhttp/3.15",
+            "epg": "http://127.0.0.1:10079/p/0/proxy/http://epg.112114.xyz/?ch={name}&date={date}",
+            "logo": "https://epg.112114.xyz/logo/{name}.png"
+        },
+        {
+            "name": "Catvod",
+            "type": 0,
+            "url": "https://live.catvod.com/tv.m3ut",
+            "ua": "okhttp/3.15",
+            "epg": "http://127.0.0.1:10079/p/0/proxy/http://epg.112114.xyz/?ch={name}&date={date}",
+            "logo": "https://epg.112114.xyz/logo/{name}.png"
+        },
+        {
+            "name": "Guovin",
+            "type": 0,
+            "url": "https://cdn.jsdelivr.net/gh/Guovin/iptv-api@gd/output/result.m3u",
+            "ua": "okhttp/3.15",
+            "epg": "http://127.0.0.1:10079/p/0/proxy/http://epg.112114.xyz/?ch={name}&date={date}",
+            "logo": "https://epg.112114.xyz/logo/{name}.png"
+        },
+        {
+            "name": "TW",
+            "type": 0,
+            "url": "http://205.185.123.236:50007/?type=m3u",
+            "ua": "okhttp/3.15",
+            "epg": "http://127.0.0.1:10079/p/0/proxy/http://epg.112114.xyz/?ch={name}&date={date}",
+            "logo": "https://epg.112114.xyz/logo/{name}.png"
+        },
+        {
+            "name": "LITV直播(python)",
+            "type": 3,
+            "api": "https://raw.githubusercontent.com/doube-ba/Sub/refs/heads/main/live/live_litv.py",
+            "ext": {}
+        },
+        {
+            "name": "KZBTY直播(python)",
+            "type": 3,
+            "api": "./lib/kzbty.py",
+            "ext": {}
+        },
+        {
+            "name": "央卫快直播(python)",
+            "type": 3,
+            "api": "./lib/kzb.py",
+            "ext": {}
+        },
+        {
             "name": "Mytvsuper",
             "type": 0,
             "url": "https://heqiao.serv00.net/mytvfree.m3u",
@@ -413,6 +603,101 @@
         }
     ],
     "sites": [
+        {
+            "key": "豆瓣💓",
+            "name": "豆瓣💓20250406-增量包💓",
+            "type": 3,
+            "api": "csp_TgYunDouBanPan",
+            "searchable": 1,
+            "changeable": 0,
+            "ext": {
+                "siteUrl": "https://zx-tgs.601417.eu.org",
+                "count": 4,
+                "channelUsername": "tgsearchers,guaguale115,ydypzyfx,shareAliyun,ucpanpan,ucquark,alyp_1,hao115,Aliyun_4K_Movies",
+                "commonConfig": "./json/peizhi1.json",
+                "filter": "./json/douban.json"
+            }
+        },
+        {
+            "key": "豆瓣",
+            "name": "TG搜💓20250406-增量包💓",
+            "type": 3,
+            "api": "csp_TgYunDouBanPan",
+            "searchable": 1,
+            "changeable": 0,
+            "ext": {
+                "siteUrl": "http://tgsou.fish2018.ip-ddns.com",
+                "count": 4,
+                "channelUsername": "tgsearchers,guaguale115,ydypzyfx,shareAliyun,ucpanpan,ucquark,alyp_1,hao115,Aliyun_4K_Movies",
+                "commonConfig": "./json/peizhi1.json",
+                "filter": "./json/douban.json"
+            }
+        },
+        {
+            "key": "真心网盘",
+            "name": "真心网盘集合",
+            "type": 3,
+            "api": "csp_网盘集合",
+            "searchable": 1,
+            "filterable": 0,
+            "switchable": 0,
+            "ext": {
+                "commonConfig": "./json/wogg.json",
+                "share": "./json/真心.json"
+            }
+        },
+        {
+            "key": "真心115网盘",
+            "name": "真心115网盘",
+            "type": 3,
+            "api": "csp_网盘集合",
+            "searchable": 1,
+            "filterable": 0,
+            "switchable": 0,
+            "ext": {
+                "commonConfig": "./json/wogg.json",
+                "share": "./json/115网盘.json"
+            }
+        },
+        {
+            "key": "真心115网盘1",
+            "name": "真心115网盘1",
+            "type": 3,
+            "api": "csp_网盘集合",
+            "searchable": 1,
+            "filterable": 0,
+            "switchable": 0,
+            "ext": {
+                "commonConfig": "./json/wogg.json",
+                "share": "./json/115网盘1.json"
+            }
+        },
+        {
+            "key": "真心UC网盘",
+            "name": "真心UC网盘",
+            "type": 3,
+            "api": "csp_网盘集合",
+            "searchable": 1,
+            "filterable": 0,
+            "switchable": 0,
+            "ext": {
+                "commonConfig": "./json/wogg.json",
+                "share": "./json/UC网盘.json"
+            }
+        },
+        {
+            "key": "真心夸克网盘",
+            "name": "真心夸克网盘",
+            "type": 3,
+            "api": "csp_网盘集合",
+            "searchable": 1,
+            "filterable": 0,
+            "switchable": 0,
+            "ext": {
+                "commonConfig": "./json/wogg.json",
+                "share": "./json/夸克网盘.json"
+            }
+        },
         {
             "key": "豆瓣💓",
             "name": "豆瓣💓20250406-增量包💓",
